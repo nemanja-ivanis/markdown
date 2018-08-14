@@ -66,7 +66,7 @@ class MarkdownServiceProvider extends ServiceProvider {
     {
         list($me, $app) = array($this, $this->app);
 
-        $app['markdown.engine.resolver'] = $app->share(function($app) use ($me)
+        $app->singleton('markdown.engine.resolver',function($app) use ($me)
             {
                 $resolver = new EngineResolver;
                 $me->registerMarkdownEngine($resolver);
@@ -109,7 +109,7 @@ class MarkdownServiceProvider extends ServiceProvider {
      */
     public function registerMarkdownFinder()
     {
-        $this->app['markdown.finder'] = $this->app->share(function($app)
+          $this->app->singleton('markdown.finder',function($app)
             {
                 $paths = Config::get('markdown.paths');
 
@@ -131,7 +131,7 @@ class MarkdownServiceProvider extends ServiceProvider {
     {
         $me = $this;
 
-        $this->app['markdown'] = $this->app->share(function($app) use ($me)
+        $this->app->singleton('markdown',function($app) use ($me)
             {
                 $resolver = $app['markdown.engine.resolver'];
 
